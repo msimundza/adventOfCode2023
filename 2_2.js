@@ -116,8 +116,7 @@ for (const game of input) {
     let roundData = round.split(',');
 
     for (const color of roundData) {
-      let colorNumber = color.trim().split(' ')[0];
-      let colorName = color.trim().split(' ')[1];
+      let [colorNumber, colorName] = color.trim().split(' ');
 
       if (parseInt(colorNumber) > tracking[colorName]) {
         tracking[colorName] = parseInt(colorNumber);
