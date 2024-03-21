@@ -152,7 +152,6 @@ const regexp = /\d+/g;
 for (let i = 0; i < input.length; i++) {
   let str = input[i];
   const matches = [...str.matchAll(regexp)].map((m) => {
-    console.log(m[0]);
     return m[0].split('').map((v, j) => {
       return {
         value: v,
@@ -166,7 +165,6 @@ for (let i = 0; i < input.length; i++) {
   for (let j = 0; j < matches.length; j++) {
     let isEligible = false;
     const match = matches[j];
-    console.log(match);
 
     for (let k = 0; k < match.length; k++) {
       const elem = match[k];
@@ -176,7 +174,6 @@ for (let i = 0; i < input.length; i++) {
         elem.row < input.length - 1 &&
         isSymbol(input[elem.row - 1][elem.col])
       ) {
-        console.log('top');
         isEligible = true;
         break;
       }
@@ -184,12 +181,10 @@ for (let i = 0; i < input.length; i++) {
         elem.row < input.length - 1 &&
         isSymbol(input[elem.row + 1][elem.col])
       ) {
-        console.log('bottom');
         isEligible = true;
         break;
       }
       if (elem.col > 0 && isSymbol(input[elem.row][elem.col - 1])) {
-        console.log('left');
         isEligible = true;
         break;
       }
@@ -197,7 +192,6 @@ for (let i = 0; i < input.length; i++) {
         elem.col < input[elem.row].length - 1 &&
         isSymbol(input[elem.row][elem.col + 1])
       ) {
-        console.log('right');
         isEligible = true;
         break;
       }
@@ -207,7 +201,6 @@ for (let i = 0; i < input.length; i++) {
         elem.col > 0 &&
         isSymbol(input[elem.row - 1][elem.col - 1])
       ) {
-        console.log('top-left');
         isEligible = true;
         break;
       }
@@ -217,7 +210,6 @@ for (let i = 0; i < input.length; i++) {
         elem.col < input[elem.row].length - 1 &&
         isSymbol(input[elem.row - 1][elem.col + 1])
       ) {
-        console.log('top-right');
         isEligible = true;
         break;
       }
@@ -227,7 +219,6 @@ for (let i = 0; i < input.length; i++) {
         elem.col > 0 &&
         isSymbol(input[elem.row + 1][elem.col - 1])
       ) {
-        console.log('bottom-left');
         isEligible = true;
         break;
       }
@@ -237,7 +228,6 @@ for (let i = 0; i < input.length; i++) {
         elem.col < input[elem.row].length - 1 &&
         isSymbol(input[elem.row + 1][elem.col + 1])
       ) {
-        console.log('bottom-right');
         isEligible = true;
         break;
       }
