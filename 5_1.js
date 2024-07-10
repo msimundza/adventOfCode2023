@@ -241,7 +241,7 @@ humidity-to-location map:
 3681279745 3212002432 7986191
 1542227407 1156260177 112739686`;
 
-result = [];
+result = Infinity;
 
 function getSeeds(input) {
   const numberRegex = new RegExp(/\d+/g);
@@ -275,7 +275,9 @@ for (const seed of seeds) {
       }
     }
   }
-  result.push(location);
+  if (location < result) {
+    result = location;
+  }
 }
 
-console.log(Math.min(...result));
+console.log(result);
