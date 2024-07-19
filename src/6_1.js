@@ -2,8 +2,8 @@
 
 import { log } from './util/helpers.js';
 
-let input = `Time:      7  15   30
-Distance:  9  40  200`;
+let input = `Time:        53     89     76     98
+Distance:   313   1090   1214   1201`;
 
 input = input.split('\n').map((line) => {
   const numberRegex = /\d+/g;
