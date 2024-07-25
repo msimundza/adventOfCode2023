@@ -17,101 +17,58 @@ const handStrength = {
   fiveOfAKind: 7,
 };
 
+function parseInput(input) {
+  return input.split('\n').map((line) => {
+    const [hand, bidStr] = line.split(' ');
+    return {
+      hand,
+      bid: parseInt(bidStr, 10),
+      handType: getHandType(hand),
+    };
+  });
+}
+
+const sortHandsByStrength = (hands) => {
+  return hands.sort((a, b) => {
+    const typeComparison = handStrength[a.handType] - handStrength[b.handType];
+    if (typeComparison !== 0) return typeComparison;
+    return compareFn(a.hand, b.hand);
+  });
+};
+
 function getHandType(hand) {
-  hand = hand.split('').reduce((acc, prev) => {
-    if (!acc[prev]) {
-      acc[prev] = 1;
-    } else {
-      acc[prev] += 1;
-    }
-
-    return acc;
-  }, {});
-
-  let type = {
-    fiveOfAKind: false,
-    fourOfAKind: false,
-    fullHouse: false,
-    threeOfAKind: false,
-    twoPair: false,
-    onePair: false,
-    highCard: false,
-  };
-
-  const handKeysLength = Object.keys(hand).length;
-  for (const card in hand) {
-    switch (hand[card]) {
-      case 2:
-        if (handKeysLength === 3) {
-          type.twoPair = true;
-        } else {
-          type.onePair = true;
-        }
-        break;
-      case 3:
-        if (handKeysLength === 3) {
-          type.threeOfAKind = true;
-        } else {
-          type.fullHouse = true;
-        }
-        break;
-      case 4:
-        type.fourOfAKind = true;
-        break;
-      case 5:
-        type.fiveOfAKind = true;
-        break;
-
-      default:
-        type.highCard = true;
-        break;
-    }
-  }
-
-  type = Object.entries(type);
-
-  let handType = 'highCard';
-
-  for (const [name, value] of type) {
-    if (value) {
-      handType = name;
-      break;
-    }
-  }
-
+  const cardCount = countCards(hand);
+  const handType = determineHandType(cardCount);
   return handType;
 }
 
-input = input.split('\n').reduce((acc, curr) => {
-  const [hand, bid] = curr.split(' ');
-  const handType = getHandType(hand);
-
-  acc.push({ hand, bid, handType });
-  return acc;
-}, []);
-
-input.sort((a, b) => handStrength[a.handType] - handStrength[b.handType]);
-let result = input.reduce((acc, curr) => {
-  if (!(curr.handType in acc)) {
-    acc[curr.handType] = [
-      {
-        hand: curr.hand,
-        bid: curr.bid,
-      },
-    ];
-  } else {
-    acc[curr.handType].push({
-      hand: curr.hand,
-      bid: curr.bid,
-    });
-  }
-  return acc;
-}, {});
-
-for (const handType in result) {
-  result[handType].sort((a, b) => compareFn(a.hand, b.hand));
+function countCards(hand) {
+  return hand.split('').reduce((acc, card) => {
+    acc[card] = (acc[card] || 0) + 1;
+    return acc;
+  }, {});
 }
 
+function determineHandType(cardCount) {
+  const counts = Object.values(cardCount).sort((a, b) => b - a);
+
+  switch (counts.join(',')) {
+    case '5':
+      return 'fiveOfAKind';
+    case '4,1':
+      return 'fourOfAKind';
+    case '3,2':
+      return 'fullHouse';
+    case '3,1,1':
+      return 'threeOfAKind';
+    case '2,2,1':
+      return 'twoPair';
+    case '2,1,1,1':
+      return 'onePair';
+    default:
+      return 'highCard';
+  }
+}
 function compareFn(a, b) {
   for (let i = 0; i < 5; i++) {
     const cardOneStrength = cards.indexOf(a[i]);
@@ -127,19 +84,18 @@ function compareFn(a, b) {
   return 0;
 }
 
-let handRank = 1;
+function rankHands(sortedHands) {
+  let handRank = 1;
+  return sortedHands.map((hand) => ({ ...hand, rank: handRank++ }));
+}
 
-const finalResult = Object.values(result)
-  .reduce((acc, curr) => {
-    acc = acc.concat(curr);
-    return acc;
-  }, [])
-  .map((hand) => {
-    hand['rank'] = handRank++;
-    return hand;
-  })
-  .reduce((acc, curr) => {
-    acc += curr.rank * curr.bid;
-    return acc;
-  }, 0);
+function calculateFinalScore(rankedHands) {
+  return rankedHands.reduce((acc, hand) => acc + hand.rank * hand.bid, 0);
+}
+
+const parsedInput = parseInput(input);
+const sortedHands = sortHandsByStrength(parsedInput);
+const rankedHands = rankHands(sortedHands);
+const finalResult = calculateFinalScore(rankedHands);
+
 log(finalResult);
