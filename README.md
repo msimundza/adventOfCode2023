@@ -27,5 +27,6 @@ For example, to run the solution for Day 1:
 
 ```bash
 node src/2_1.js
+```
 
 🚧 **Work in Progress**: I am currently working through the challenges and have completed solutions up to **Day 10**. I will be updating this repository as I progress through the remaining challenges.
