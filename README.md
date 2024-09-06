@@ -8,8 +8,9 @@ Welcome to my solutions for the **Advent of Code 2023** challenges, implemented 
 
     ```bash
     git clone https://github.com/msimundza/adventOfCode2023.git
-    cd adventOfCode2023
     ```
+    then navigate to the cloned repository
+    ```cd adventOfCode2023```
 
 2. Ensure you have Node.js installed. If not, download and install it from [here](https://nodejs.org/).
 
@@ -23,7 +24,7 @@ Welcome to my solutions for the **Advent of Code 2023** challenges, implemented 
 
 Each solution is implemented in a separate file for each day. To run the solution for a specific day, you can use Node.js.
 
-For example, to run the solution for Day 1:
+For example, to run the solution for Day 2:
 
 ```bash
 node src/2_1.js
