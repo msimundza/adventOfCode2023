@@ -150,8 +150,7 @@ function getLoopData() {
   return { vertices, boundaryPointsCount };
 }
 
-function solvePart2(plan) {
-  // boundaryPointsCount == part1Answer * 2
+function solve(plan) {
   const { vertices, boundaryPointsCount } = getLoopData(plan);
   const loopArea = getAreaUsingShoelaceFormula(vertices);
 
@@ -188,4 +187,4 @@ input = input.split('\n');
 
 const plan = input.map((line) => line.split(''));
 
-log(solvePart2(plan));
+log(solve(plan)); // picks theorem + shoelace formula
